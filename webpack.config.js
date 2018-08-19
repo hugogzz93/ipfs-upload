@@ -1,4 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FlowWebpackPlugin = require('flow-webpack-plugin');
+
 var path = require('path');
 
 var BUILD_DIR = path.resolve(__dirname, 'dist');
@@ -29,6 +31,7 @@ var config = {
     ]
   },
   plugins: [
+    new FlowWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html'
     })

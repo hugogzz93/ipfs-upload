@@ -1,13 +1,19 @@
+// @flow
 import React, { Component } from 'react';
 import LeftSidebar from './LeftSidebar';
 import Center from './Center';
-// import '../stylesheets/App.css';
 
-class App extends Component {
+type Props = {}
+
+class App extends Component<Props> {
+  doIt(x: string):void {
+    return 1
+  }
   render() {
     return (
+
       <div className="content">
-        <div>Hello There</div>
+        <div>{this.doIt(1)}</div>
         <LeftSidebar/>
         <Center/>
       </div>
