@@ -1,0 +1,5 @@
+html {
+  --sidebar-span: 3;
+  --grid-size: 16;
+  --cadence: 0.3s;
+}

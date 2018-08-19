@@ -1,0 +1,21 @@
+@import url(./variables.css);
+@import url(./variables.css);
+.base-transition, .layout__class, .sidebar--left {
+  transition: all var(--cadence); }
+
+.layout__class {
+  overflow-y: scroll; }
+
+.content {
+  display: flex;
+  height: 100vh; }
+
+.sidebar--left {
+  border: 1px solid red;
+  width: 25vw; }
+
+.sidebar--collapsed {
+  width: 0; }
+
+.center {
+  flex-grow: 1; }
