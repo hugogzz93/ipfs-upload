@@ -1,5 +1,4 @@
 import React from 'react';
-import arithmetic from '../lib/arithmetic';
 
 class LeftSidebar extends React.Component {
   componentWillMount() {

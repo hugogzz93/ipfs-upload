@@ -20,12 +20,12 @@ var config = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: '/node_modules/',
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
         }
       },{
-        test: /\.scss$/,
+        test: /\.s[ca]ss$/,
         use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]

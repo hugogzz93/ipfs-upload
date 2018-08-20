@@ -1,5 +1,14 @@
-html {
+:root {
   --sidebar-span: 3;
   --grid-size: 16;
   --cadence: 0.3s;
+
+  --red: #ff6f69;
+  --beige: #ffeead;
+  --yellow: #ffcc5c;
+
+  --theme__primary: var(--beige);
+  --theme__secondary: var(--red);
 }
+
+

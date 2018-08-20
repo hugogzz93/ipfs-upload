@@ -1,0 +1,44 @@
+@import variables
+
+._base-transition
+  transition: all var(--cadence)
+
+._base-theme
+  @extend ._base-transition
+
+body
+  background: var(--theme__primary)
+
+
+button
+  @extend ._base-theme
+  cursor: pointer
+  color: var(--theme__secondary)
+  background: var(--theme__primary)
+  border: 1px solid var(--theme__secondary)
+
+  &:hover
+    color: var(--theme__primary)
+    background: var(--theme__secondary)
+    border: 1px solid var(--theme__primary)
+
+
+/* body{ */
+/*   background: var(--theme__primary); */
+/*   color: var(--theme__secondary); */
+/* } */
+/*  */
+/* .base-transition, .layout__class { */
+/*   transition: all var(--cadence);  */
+/* } */
+/*  */
+/* .layout__class { */
+/*   overflow-y: scroll;  */
+/* } */
+/*  */
+/* //Buttons */
+/* button { */
+/*   display: inline-block; */
+/*   background: var(--theme_secondary); */
+/*   color: var(--theme_primary); */
+/* } */
