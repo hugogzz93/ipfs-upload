@@ -1,3 +1,6 @@
 {
-  "presets": ["flow", "react"]
+  "presets": ["flow", "react"],
+  "plugins": [
+    "react-html-attrs"
+  ]
 }

@@ -2,20 +2,25 @@
 import React, { Component } from 'react';
 import LeftSidebar from './LeftSidebar';
 import Center from './Center';
+import uport from '../lib/uport';
 
 type Props = {}
 
 class App extends Component<Props> {
-  doIt(x: string):void {
-    return 1
+  logIn() {
+    uport.requestCredentials({
+      requested: ['name', 'phone', 'country'],
+      notifications: true
+    })
+    .then(credentials => {
+      console.log(credentials);
+    })
+    
   }
   render() {
     return (
-
-      <div className="content">
-        <div>{this.doIt(1)}</div>
-        <LeftSidebar/>
-        <Center/>
+      <div class="content">
+        <button class="loginBtn" onClick={this.logIn.bind(this)}>Log In</button>
       </div>
     );
   }
