@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './stylesheets/index.sass';
 import App from './components/App';
-// import registerServiceWorker from './registerServiceWorker';
-//
-ReactDOM.render(<App />, document.getElementById('app'));
-// registerServiceWorker();
+import store from './lib/store';
+import { Provider } from 'react-redux';
 
-
+ReactDOM.render(
+  <Provider store={store}> 
+    <App />
+  </Provider>,
+  document.getElementById('app'));
