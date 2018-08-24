@@ -13,8 +13,13 @@ import {
  } from '../lib/actions';
 import { connect } from 'react-redux';
 import {type State} from '../lib/types';
+import Web3 from 'web3';
 
 type Props = Object
+
+const web3 = new Web3(Web3.givenProvider || "http://localhost:9545");
+web3.eth.defaultAccount = web3.eth.accounts[0];
+
 
 
 @connect((store) => {
