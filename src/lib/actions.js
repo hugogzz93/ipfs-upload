@@ -34,3 +34,10 @@ export function onFileUploading(): Action {
     payload: {}
   }
 }
+
+export function setStoredFiles(files: Array<string>): Action {
+  return {
+    type: 'SET_STORED_FILES',
+    payload: { files }
+  }
+}

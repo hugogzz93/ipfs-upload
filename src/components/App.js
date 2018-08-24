@@ -9,7 +9,8 @@ import {
   logIn,
   onFileChange,
   onFileUploading,
-  onFileUploaded
+  onFileUploaded,
+  setStoredFiles
  } from '../lib/actions';
 import { connect } from 'react-redux';
 import {type State} from '../lib/types';
@@ -19,10 +20,10 @@ import {FileStorageABI, FileStorageAddress } from '../config/file_storage';
 type Props = Object
 
 const web3 = new Web3(Web3.givenProvider || "http://localhost:9545");
-web3.eth.defaultAccount = web3.eth.accounts[0];
 
-const fileStorageInstance = web3.eth.contract(FileStorageABI);
-fileStorageInstance.at(FileStorageAddress);
+const fileStorageInstance = new web3.eth.Contract(FileStorageABI);
+fileStorageInstance.options.address = FileStorageAddress;
+console.log(fileStorageInstance);
 
 
 
@@ -33,9 +34,24 @@ fileStorageInstance.at(FileStorageAddress);
   }
 })
 class App extends Component<Props> {
-  componentWillMount() {
-    fileStorageInstance.UploadRegistered().watch((err, result) => {
-      this.props.dispatch(onFileUploaded(result.args.ipfsHash));
+  componentDidMount() {
+    web3.eth.getAccounts().then(this.fetchFiles.bind(this));
+  }
+  fetchFiles(accounts: Array<string>) {
+    fileStorageInstance.methods.getFileCount().call({from: accounts[0]}).then((count) => {
+      let files = [];
+      let promises = [];
+      for(let i = 0; i < count; i++) {         
+        promises.push(
+          fileStorageInstance.
+            methods.uploads(accounts[0], i)
+            .call({from: accounts[0]}).
+            then(hash => files.push(hash))
+        )
+       }
+       Promise.all(promises).then(() => {
+        this.props.dispatch(setStoredFiles(files));
+       })
     })
   }
   
@@ -73,7 +89,10 @@ class App extends Component<Props> {
       if(err)
         console.log(err)
       else
-        fileStorageInstance.addUpload(files[0].hash)
+        fileStorageInstance.methods.addUpload(files[0].hash)
+        .send((receipt) => {
+          console.log(receipt)
+        });
     })
   }
 

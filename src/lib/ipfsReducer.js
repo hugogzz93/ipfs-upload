@@ -30,6 +30,13 @@ const ipfsReducer = function(state: IpfsState=defaultState, action: Action): Ipf
       newState.uploadedFiles.push(action.payload.ipfsHash);
       return newState;
     }
+    case 'SET_STORED_FILES': {
+      const newState: IpfsState = {
+        ...state,
+        uploadedFiles: action.payload.files
+      }
+      return newState;
+    }
   }
   return state;
 }
