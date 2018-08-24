@@ -21,7 +21,7 @@ export function onFileChange(file: Object): Action {
   }
 }
 
-export function onFileUploaded(ipfsHash: String ): Action {
+export function onFileUploaded(ipfsHash: String): Action {
   return {
     type: 'FILE_UPLOADED',
     payload: { ipfsHash }

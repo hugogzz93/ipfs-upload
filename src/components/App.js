@@ -33,7 +33,12 @@ fileStorageInstance.at(FileStorageAddress);
   }
 })
 class App extends Component<Props> {
-
+  componentWillMount() {
+    fileStorageInstance.UploadRegistered().watch((err, result) => {
+      this.props.dispatch(onFileUploaded(result.args.ipfsHash));
+    })
+  }
+  
   logIn() {
     uport.requestCredentials({
       requested: ['name', 'phone', 'country'],
@@ -65,11 +70,10 @@ class App extends Component<Props> {
     this.props.dispatch(onFileUploading());
 
     ipfs.files.add(this.props.ipfs.stagedFile, (err, files) => {
-      if(err) {
+      if(err)
         console.log(err)
-        return
-      }
-      this.props.dispatch(onFileUploaded(files[0].hash))
+      else
+        fileStorageInstance.addUpload(files[0].hash)
     })
   }
 
