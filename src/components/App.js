@@ -35,17 +35,20 @@ console.log(fileStorageInstance);
 })
 class App extends Component<Props> {
   componentDidMount() {
-    web3.eth.getAccounts().then(this.fetchFiles.bind(this));
+    web3.eth.getAccounts().then((accounts) => {
+      web3.eth.defaultAccount = accounts[0];
+      this.fetchFiles();
+    })
   }
-  fetchFiles(accounts: Array<string>) {
-    fileStorageInstance.methods.getFileCount().call({from: accounts[0]}).then((count) => {
+  fetchFiles() {
+    fileStorageInstance.methods.getFileCount().call({from: web3.eth.defaultAccount}).then((count) => {
       let files = [];
       let promises = [];
       for(let i = 0; i < count; i++) {         
         promises.push(
           fileStorageInstance.
-            methods.uploads(accounts[0], i)
-            .call({from: accounts[0]}).
+            methods.uploads(web3.eth.defaultAccount, i)
+            .call({from: web3.eth.defaultAccount}).
             then(hash => files.push(hash))
         )
        }
@@ -89,10 +92,9 @@ class App extends Component<Props> {
       if(err)
         console.log(err)
       else
-        fileStorageInstance.methods.addUpload(files[0].hash)
-        .send((receipt) => {
-          console.log(receipt)
-        });
+        fileStorageInstance.methods.addUpload(files[0].hash, []).send({from: web3.eth.defaultAccount}).then(() => {
+          this.props.dispatch(onFileUploaded(files[0].hash));
+        })
     })
   }
 
@@ -113,8 +115,8 @@ class App extends Component<Props> {
     })
     return (
       <div class="content">
-        <h1>{ msg }</h1>
-        <button class="loginBtn" onClick={this.logIn.bind(this)}>Log In</button>
+        <h1>{ `Account: ${web3.eth.defaultAccount}` }</h1>
+        {/* <button class="loginBtn" onClick={this.logIn.bind(this)}>Log In</button> */}
         <form onSubmit={this.onSubmit.bind(this)}>
           <input
             class={"button " + ipfsState}
