@@ -21,6 +21,11 @@ contract FileStorage {
     emit UploadRegistered(msg.sender, ipfsHash);
   }
 
+  function getFileCount() view public returns (uint) {
+    return uploads[msg.sender].length;
+  }
+
+
   // function getUploadHash(address _user, uint i) public view returns(string) {
   //     return uploads[_user][i].ipfsHash;
   // }
