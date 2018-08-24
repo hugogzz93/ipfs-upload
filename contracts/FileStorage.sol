@@ -10,15 +10,15 @@ contract FileStorage {
   
   mapping(address => Upload[]) public uploads;
 
-  event Upload(address address, string ipfsHash);
+  event UploadRegistered(address user, string ipfsHash);
 
   constructor() public {
     owner = msg.sender;
   }
 
-  function addUpload(address user, string ipfsHash, string[] tags) public {
+  function addUpload(string ipfsHash, string[] tags) public {
     uploads[msg.sender].push(Upload(ipfsHash, tags));
-    emit Upload(user, ipfsHash);
+    emit UploadRegistered(msg.sender, ipfsHash);
   }
 
   // function getUploadHash(address _user, uint i) public view returns(string) {

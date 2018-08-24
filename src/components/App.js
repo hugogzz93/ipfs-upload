@@ -14,11 +14,15 @@ import {
 import { connect } from 'react-redux';
 import {type State} from '../lib/types';
 import Web3 from 'web3';
+import {FileStorageABI, FileStorageAddress } from '../config/file_storage';
 
 type Props = Object
 
 const web3 = new Web3(Web3.givenProvider || "http://localhost:9545");
 web3.eth.defaultAccount = web3.eth.accounts[0];
+
+const fileStorageInstance = web3.eth.contract(FileStorageABI);
+fileStorageInstance.at(FileStorageAddress);
 
 
 
