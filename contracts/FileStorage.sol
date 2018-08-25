@@ -1,23 +1,29 @@
 pragma solidity ^0.4.23;
-pragma experimental ABIEncoderV2;
 
 contract FileStorage {
   address public owner;
   struct Upload {
+    string fileName;
     string ipfsHash;
-    string[] tags;
+    string additionalInfo;
+    uint256 timeStamp;
   }
   
-  mapping(address => Upload[]) public uploads;
+  mapping(address => Upload[]) private uploads;
 
   event UploadRegistered(address user, string ipfsHash);
+  
+  modifier isValidIndex(address user, uint index) {
+    require(uploads[user].length > index && index >= 0);
+    _;
+  }
 
   constructor() public {
     owner = msg.sender;
   }
 
-  function addUpload(string ipfsHash, string[] tags) public {
-    uploads[msg.sender].push(Upload(ipfsHash, tags));
+  function addUpload(string ipfsHash, string fileName, string additionalInfo) public {
+    uploads[msg.sender].push(Upload(ipfsHash, fileName, additionalInfo, now));
     emit UploadRegistered(msg.sender, ipfsHash);
   }
 
@@ -25,13 +31,17 @@ contract FileStorage {
     return uploads[msg.sender].length;
   }
 
-
-  // function getUploadHash(address _user, uint i) public view returns(string) {
-  //     return uploads[_user][i].ipfsHash;
-  // }
-  //
-  // function getUploadTags(address _user, uint i) public view returns(string[]) {
-  //     return uploads[_user][i].tags;
-  // }
+  function getUpload(uint index) 
+  isValidIndex(msg.sender, index)
+  view
+  public
+  returns(string, string, string, uint256)
+   {
+     Upload memory upload = uploads[msg.sender][index];
+    return (upload.fileName,
+            upload.ipfsHash,
+            upload.additionalInfo,
+            upload.timeStamp);
+  }
 }
 
