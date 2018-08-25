@@ -6,9 +6,21 @@
   --red: #ff6f69;
   --beige: #ffeead;
   --yellow: #ffcc5c;
+  --green: #14af83;
+  --blue: #26648e;
+  --purple: #745fb5;
 
-  --theme__primary: var(--beige);
-  --theme__secondary: var(--red);
+  --theme__primary: white;
+  --theme__secondary: var(--purple);
+
+  --text-weak: #9eaab6;
+  --text-special: var(--blue);
+  --text-special-alt-1: var(--green);
+  --text-special-alt-2: var(--purple);
+  --text-normal: #345;
+
+
+  --padding: 16px;
 }
 
 

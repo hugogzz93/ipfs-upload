@@ -1,0 +1,35 @@
+@import ../variables
+@import ../mixins
+
+
+.card-container
+  font-weight: 100
+  padding: 16px
+  width: 33%
+  box-sizing: border-box
+
+  &__title
+    @include aligned-flex
+    color: var(--text-special-alt-2)
+    width: 100%
+
+.card
+  @include shadow(rgba(102,119,136,0.03), rgba(102,119,136,0.3), rgba(58,193,203,0.1))
+
+  &__row
+    background: white
+    &:first-child
+      @include gradient-border-bottom(#f7f8f9, transparent)
+    p
+      padding: 16px
+      margin: 0
+
+
+  &__row--accent
+    background: #f8f9fa
+
+  &__time-stamp
+    float: right
+    color: var(--text-normal)
+
+

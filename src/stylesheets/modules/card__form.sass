@@ -1,0 +1,25 @@
+@import card.sass
+
+.card__row
+  input, textarea, label
+    width: 100%
+    box-sizing: border-box
+    outline: 0
+    border: none
+    resize: none
+    padding: 8px
+    color: var(--text-normal)
+    font-size: 1rem
+
+  input[type=file]
+    @include hidden
+    
+  textarea
+    height: 5rem
+
+  label
+    display: block
+    cursor: pointer
+
+
+
