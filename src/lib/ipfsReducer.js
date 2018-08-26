@@ -1,9 +1,16 @@
 //@flow
-import {type IpfsState, type Action} from './types';
+import {
+  type IpfsState,
+  type Action,
+  type File
+} from './types';
 
 const defaultState: IpfsState = {
   node: { status: 'ready' },
-  stagedFile: null,
+  stagedFile: {
+    fileName: '',
+    ipfsHash: ''
+  },
   uploadedFiles: []
 }
 
@@ -11,7 +18,7 @@ const ipfsReducer = function(state: IpfsState=defaultState, action: Action): Ipf
   switch(action.type) {
     case 'FILE_CHANGE': {
       const newState: IpfsState = {...state};
-      newState.stagedFile = action.payload.file
+      newState.stagedFile[action.payload.key] = action.payload.data;
       return newState;
     }
     case 'FILE_UPLOADING': {
@@ -25,9 +32,13 @@ const ipfsReducer = function(state: IpfsState=defaultState, action: Action): Ipf
       const newState: IpfsState = { 
         ...state,
         node: {status: 'ready'},
-        stagedFile: null
+        stagedFile: defaultState.stagedFile
       };
-      newState.uploadedFiles.push(action.payload.ipfsHash);
+      const file: File = {
+        ...state.stagedFile,
+        ipfsHash: action.payload.ipfsHash
+      }
+      newState.uploadedFiles.push(file);
       return newState;
     }
     case 'SET_STORED_FILES': {

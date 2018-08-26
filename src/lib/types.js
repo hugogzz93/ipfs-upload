@@ -17,10 +17,18 @@ const IpfsConnectionStates = {
   uploading: 1
 }
 
+export type File= {
+  fileName: string,
+  ipfsHash: string,
+  timeStamp?: string,
+  additionalInfo?: string,
+  inputFileName?: string
+}
+
 export type IpfsState = {
   node: { status: $Keys<typeof IpfsConnectionStates>},
-  stagedFile: ?Object,
-  uploadedFiles: Array<string>
+  stagedFile: File,
+  uploadedFiles: Array<File>
 
 }
 
@@ -28,6 +36,8 @@ export type State = {
   user: UserState,
   ipfs: IpfsState
 };
+
+
 
 
 export type Props = Object;

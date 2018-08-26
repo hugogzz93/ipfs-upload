@@ -1,5 +1,11 @@
 //@flow
-import {type Action, type User, type ReduxThunk, type CallbackFn} from './types';
+import {
+  type Action,
+  type User,
+  type ReduxThunk,
+  type CallbackFn,
+  type File
+} from './types';
 import ipfs from './ipfs'
 
 export function logIn(credentials: User): Action {
@@ -14,14 +20,14 @@ export function connectIpfs(callBack: CallbackFn ): ReduxThunk  {
   }
 }
 
-export function onFileChange(file: Object): Action {
-  return {
-    type: 'FILE_CHANGE',
-    payload: { file }
-  }
-}
-
-export function onFileUploaded(ipfsHash: String): Action {
+// export function onFileChange(file: Object): Action {
+//   return {
+//     type: 'FILE_CHANGE',
+//     payload: { file }
+//   }
+// }
+//
+export function onFileUploaded(ipfsHash: string): Action {
   return {
     type: 'FILE_UPLOADED',
     payload: { ipfsHash }
@@ -35,9 +41,16 @@ export function onFileUploading(): Action {
   }
 }
 
-export function setStoredFiles(files: Array<string>): Action {
+export function setStoredFiles(files: Array<File>): Action {
   return {
     type: 'SET_STORED_FILES',
     payload: { files }
+  }
+}
+
+export function onFileDataChange(key: string, data: string | Object): Action {  
+  return {
+    type: 'FILE_CHANGE',
+    payload: {key, data}
   }
 }

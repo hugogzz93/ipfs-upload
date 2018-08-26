@@ -1,4 +1,4 @@
-export const FileStorageAddress = "0x0d8cc4b8d15d4c3ef1d70af0071376fb26b5669b";
+export const FileStorageAddress = "0x98d9f9e8debd4a632682ba207670d2a5acd3c489";
 export const FileStorageABI = [
     {
       "constant": true,
@@ -8,29 +8,6 @@ export const FileStorageABI = [
         {
           "name": "",
           "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "address"
-        },
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "uploads",
-      "outputs": [
-        {
-          "name": "ipfsHash",
-          "type": "string"
         }
       ],
       "payable": false,
@@ -68,8 +45,12 @@ export const FileStorageABI = [
           "type": "string"
         },
         {
-          "name": "tags",
-          "type": "string[]"
+          "name": "fileName",
+          "type": "string"
+        },
+        {
+          "name": "additionalInfo",
+          "type": "string"
         }
       ],
       "name": "addUpload",
@@ -83,6 +64,37 @@ export const FileStorageABI = [
       "inputs": [],
       "name": "getFileCount",
       "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getUpload",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
         {
           "name": "",
           "type": "uint256"

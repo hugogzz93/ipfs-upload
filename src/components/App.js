@@ -7,15 +7,14 @@ import ipfs from '../lib/ipfs';
 import store from '../lib/store';
 import { 
   logIn,
-  onFileChange,
-  onFileUploading,
-  onFileUploaded,
   setStoredFiles
  } from '../lib/actions';
 import { connect } from 'react-redux';
-import {type State} from '../lib/types';
+import {type State, type File} from '../lib/types';
 import Web3 from 'web3';
 import {FileStorageABI, FileStorageAddress } from '../config/file_storage';
+import FileCard from './FileCard';
+import FileInput from './FileInput';
 
 type Props = Object
 
@@ -41,20 +40,31 @@ class App extends Component<Props> {
     })
   }
   fetchFiles() {
-    fileStorageInstance.methods.getFileCount().call({from: web3.eth.defaultAccount}).then((count) => {
-      let files = [];
-      let promises = [];
-      for(let i = 0; i < count; i++) {         
-        promises.push(
-          fileStorageInstance.
-            methods.uploads(web3.eth.defaultAccount, i)
-            .call({from: web3.eth.defaultAccount}).
-            then(hash => files.push(hash))
-        )
-       }
-       Promise.all(promises).then(() => {
-        this.props.dispatch(setStoredFiles(files));
-       })
+    fileStorageInstance.methods.getFileCount()
+      .call({from: web3.eth.defaultAccount})
+      .then(count => {
+        let files: Array<File> = [];
+        let promises = [];
+        for(let i = 0; i < count; i++) {
+          promises.push(
+            fileStorageInstance.
+              methods
+              .getUpload(i)
+              .call({from: web3.eth.defaultAccount}).
+              then((res) => {
+                const file: File = {
+                  ipfsHash: res[0],
+                  fileName: res[1],
+                  additionalInfo: res[2],
+                  timeStamp: res[3]
+                }
+                files.push(file);
+              })
+          )
+         }
+         Promise.all(promises).then(() => {
+          this.props.dispatch(setStoredFiles(files));
+         })
     })
   }
   
@@ -68,64 +78,30 @@ class App extends Component<Props> {
     })
   }
 
-
-  captureFile (event: Object): void {
-    event.stopPropagation();
-    event.preventDefault();
-    const file = event.target.files[0];
-    let reader = new window.FileReader();
-
-    reader.readAsArrayBuffer(file);
-    reader.onloadend = () => this.convertToBuffer(reader);
-  }
-
-  async convertToBuffer(reader: Object): Promise<any> {
-    const buffer = await Buffer.from(reader.result);
-    this.props.dispatch(onFileChange(buffer));
-  }
-
-  onSubmit (event: Object): void {
-    event.preventDefault();
-    this.props.dispatch(onFileUploading());
-
-    ipfs.files.add(this.props.ipfs.stagedFile, (err, files) => {
-      if(err)
-        console.log(err)
-      else
-        fileStorageInstance.methods.addUpload(files[0].hash, []).send({from: web3.eth.defaultAccount}).then(() => {
-          this.props.dispatch(onFileUploaded(files[0].hash));
-        })
-    })
-  }
-
-
-
   render() {
-    const logged = this.props.user.name;
-    const msg = logged ? 'Hello ' + this.props.user.name : 'Log in!';
-    const ipfsState = this.props.ipfs.node.status;
-    const fileRows = this.props.ipfs.uploadedFiles.map(hash => {
-      return (
-      <div key={hash} class="file-row">
-        <a href={`https://gateway.ipfs.io/ipfs/${hash}`}>
-          {hash}
-        </a>
-      </div>
-      )
-    })
+    const uploadedFiles = this.props.ipfs.uploadedFiles.map(file => <FileCard key={file.ipfsHash} {...file}/>).reverse()
     return (
-      <div class="content">
-        <h1>{ `Account: ${web3.eth.defaultAccount}` }</h1>
-        {/* <button class="loginBtn" onClick={this.logIn.bind(this)}>Log In</button> */}
-        <form onSubmit={this.onSubmit.bind(this)}>
-          <input
-            class={"button " + ipfsState}
-            type="file"
-            onChange = {this.captureFile.bind(this)}
-          />
-          <input type="submit" value="Go!" class="button" />
-        </form>
-        {fileRows}
+      <div class="App__content">
+        <div class="row">
+          <h4>{ `Account: ${web3.eth.defaultAccount}` }</h4>
+        </div>
+        <div class="row">
+          <div class="heading">
+            <h3> Upload File </h3>
+            <div class="heading__tail"/>
+          </div>
+        </div>
+        <div class="row">
+          <FileInput
+            web3={web3}
+            fileStorageInstance={fileStorageInstance} 
+           />
+        </div>
+        <div class="heading row">
+          <h3> Uploaded Files </h3>
+          <div class="heading__tail"/>
+        </div>
+        {uploadedFiles}
       </div>
     );
   }
