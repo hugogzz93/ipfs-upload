@@ -1,4 +1,4 @@
-export const FileStorageAddress = "0x98d9f9e8debd4a632682ba207670d2a5acd3c489";
+export const FileStorageAddress = "0x345ca3e014aaf5dca488057592ee47305d9b3e10";
 export const FileStorageABI = [
     {
       "constant": true,

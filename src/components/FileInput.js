@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ipfs from '../lib/ipfs';
+import Spinner from './spinner';
 import { type File } from '../lib/types';
 import {
   onFileDataChange,
@@ -69,13 +70,14 @@ export default class FileInput extends Component<Object> {
             .send({from: this.props.web3.eth.defaultAccount})
             .then(() => {
               this.props.dispatch(onFileUploaded(files[0].hash));
+              location.reload();
             })
     })
   }
   
   render() {
-    const ipfsState = this.props.ipfs.node.status;
     const fileLabel = this.props.ipfs.stagedFile.inputFileName || 'Choose File';
+    const spinner = this.props.ipfs.status == 'uploading' ? <Spinner/> : <input type="submit" class="button" value="Upload" />;
     return (
         <form onSubmit={this.onSubmit.bind(this)} autoComplete="off">
           <div class="card-container">
@@ -108,11 +110,7 @@ export default class FileInput extends Component<Object> {
             </div>
           </div>
           <div class="card-container">
-            <input
-              type="submit"
-              class="button"
-              value="Upload"
-            />
+            {spinner}
           </div>
         </form>
     );

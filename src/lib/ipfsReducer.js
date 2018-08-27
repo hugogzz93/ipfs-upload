@@ -6,7 +6,7 @@ import {
 } from './types';
 
 const defaultState: IpfsState = {
-  node: { status: 'ready' },
+  status: 'ready',
   stagedFile: {
     fileName: '',
     ipfsHash: ''
@@ -24,14 +24,14 @@ const ipfsReducer = function(state: IpfsState=defaultState, action: Action): Ipf
     case 'FILE_UPLOADING': {
       const newState: IpfsState = { 
         ...state,
-        node: {status: 'uploading'}
+        status: 'uploading'
       }
       return newState;
     }
     case 'FILE_UPLOADED': {
       const newState: IpfsState = { 
         ...state,
-        node: {status: 'ready'},
+        status: 'ready',
         stagedFile: defaultState.stagedFile
       };
       const file: File = {

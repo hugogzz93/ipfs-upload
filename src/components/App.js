@@ -53,8 +53,8 @@ class App extends Component<Props> {
               .call({from: web3.eth.defaultAccount}).
               then((res) => {
                 const file: File = {
-                  ipfsHash: res[0],
-                  fileName: res[1],
+                  fileName: res[0],
+                  ipfsHash: res[1],
                   additionalInfo: res[2],
                   timeStamp: res[3]
                 }
@@ -80,6 +80,7 @@ class App extends Component<Props> {
 
   render() {
     const uploadedFiles = this.props.ipfs.uploadedFiles.map(file => <FileCard key={file.ipfsHash} {...file}/>).reverse()
+    const alert = this.props.ipfs.status == "uploading" ? 'Large files may take a while to upload to the IPFS.' : ''
     return (
       <div class="App__content">
         <div class="row">
@@ -96,6 +97,11 @@ class App extends Component<Props> {
             web3={web3}
             fileStorageInstance={fileStorageInstance} 
            />
+        </div>
+        <div class="row">
+          <div class="alert-container">
+            <p>{alert}</p>
+          </div>
         </div>
         <div class="heading row">
           <h3> Uploaded Files </h3>

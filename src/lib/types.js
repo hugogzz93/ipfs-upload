@@ -26,7 +26,7 @@ export type File= {
 }
 
 export type IpfsState = {
-  node: { status: $Keys<typeof IpfsConnectionStates>},
+  status: $Keys<typeof IpfsConnectionStates>,
   stagedFile: File,
   uploadedFiles: Array<File>
 
