@@ -23,7 +23,7 @@ contract FileStorage {
   }
 
   function addUpload(string ipfsHash, string fileName, string additionalInfo) public {
-    uploads[msg.sender].push(Upload(ipfsHash, fileName, additionalInfo, now));
+    uploads[msg.sender].push(Upload(fileName, ipfsHash, additionalInfo, now));
     emit UploadRegistered(msg.sender, ipfsHash);
   }
 
