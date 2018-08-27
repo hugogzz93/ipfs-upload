@@ -5,7 +5,7 @@ A smart contract will store the address (as an ipfs hash) of the file as well
 as a timestamp and optional additional info for the user.
 
 Users may come back later to and the locations of their files will be retrieved
-from the small contract.
+from the smart contract.
 
 
 ## Requirements
@@ -26,7 +26,7 @@ The server will listen on port 8080 by default.
 
 #### Testnet
 The smart contract is already deployed on the Rinkeby test network.
-The address is `0x09ef946b45df639de340bcd372f5c33d1130e017`.
+The address is [0x09ef946b45df639de340bcd372f5c33d1130e017](https://rinkeby.etherscan.io/address/0x09ef946b45df639de340bcd372f5c33d1130e017)
 The default configuration has that address, your metamask instance should be connected to
 rinkeby. If you wish to use a local or other network, you will have to deploy the contract
 and set the address of that contract to the `FileStorageAddress` variable on `src/config/file_storage.js`.
