@@ -1,5 +1,5 @@
 # IPFS File Upload
-##Uploads files to the ipfs and stores all user's upload references in an ethereum smart contract.
+## Uploads files to the ipfs and stores all user's upload references in an ethereum smart contract.
 Permits users to upload files to the [Interplanetary File System](ipfs.io).
 A smart contract will store the address (as an ipfs hash) of the file as well 
 as a timestamp and optional additional info for the user.
