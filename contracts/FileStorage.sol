@@ -14,11 +14,17 @@ contract FileStorage is Administered, CircuitBreaker {
 
   event UploadRegistered(address user, string ipfsHash);
   
+  //@dev Checks whether index is within the range of the address array.
   modifier isValidIndex(address user, uint index) {
     require(uploads[user].length > index && index >= 0);
     _;
   }
 
+  //@dev Stores uploaded data into the address' uploads mapping.
+  //@param ipfsHash ipfs address of stored file
+  //@param fileName file name of file being uploaded.
+  //@param string for any complementary info the user would like to attach
+  // to file.
   function addUpload(string ipfsHash,
                      string fileName,
                      string additionalInfo)
@@ -29,10 +35,12 @@ contract FileStorage is Administered, CircuitBreaker {
     emit UploadRegistered(msg.sender, ipfsHash);
   }
 
+  //@dev Returns number of files the calling address has stored.
   function getFileCount() view public returns (uint) {
     return uploads[msg.sender].length;
   }
 
+  //@dev Return the contents of the sender's uploads at the given index.
   function getUpload(uint index) 
   isValidIndex(msg.sender, index)
   view
