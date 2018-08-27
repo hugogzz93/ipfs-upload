@@ -1,7 +1,8 @@
 pragma solidity ^0.4.23;
+import './Administered.sol';
+import './CircuitBreaker.sol';
 
-contract FileStorage {
-  address public owner;
+contract FileStorage is Administered, CircuitBreaker {
   struct Upload {
     string fileName;
     string ipfsHash;
@@ -18,11 +19,12 @@ contract FileStorage {
     _;
   }
 
-  constructor() public {
-    owner = msg.sender;
-  }
-
-  function addUpload(string ipfsHash, string fileName, string additionalInfo) public {
+  function addUpload(string ipfsHash,
+                     string fileName,
+                     string additionalInfo)
+                     public
+                     stopInEmergency
+                     {
     uploads[msg.sender].push(Upload(fileName, ipfsHash, additionalInfo, now));
     emit UploadRegistered(msg.sender, ipfsHash);
   }
