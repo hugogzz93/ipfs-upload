@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ipfs from '../lib/ipfs';
-import Spinner from './spinner';
+import Spinner from './Spinner';
 import { type File } from '../lib/types';
 import {
   onFileDataChange,
